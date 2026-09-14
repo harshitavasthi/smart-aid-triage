@@ -12,7 +12,7 @@ export type SupportErrorKind = "network" | "timeout" | "http" | "parse" | "empty
 
 export class SupportApiError extends Error {
   kind: SupportErrorKind;
-  status?: number;
+  status: number | undefined;
 
   constructor(kind: SupportErrorKind, message: string, status?: number) {
     super(message);
@@ -40,11 +40,9 @@ function unwrap(raw: unknown): Json {
 
     const keys = Object.keys(current);
     const passthrough = ["json", "data", "output", "result", "body", "response"];
-    const only = passthrough.find(
-      (k) => keys.length === 1 && k === keys[0] && (isRecord(current) ? true : false),
-    );
-    if (only) {
-      const next = (current as Json)[only];
+    const soleKey = keys.length === 1 ? keys[0] : undefined;
+    if (soleKey && passthrough.includes(soleKey)) {
+      const next = current[soleKey];
       if (isRecord(next) || Array.isArray(next)) {
         current = next;
         continue;
