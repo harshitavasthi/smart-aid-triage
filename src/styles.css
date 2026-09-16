@@ -234,7 +234,19 @@
 
 @utility grid-backdrop {
   background-image:
-    linear-gradient(to right, oklch(1 0 0 / 3.5%) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(1 0 0 / 3.5%) 1px, transparent 1px);
-  background-size: 56px 56px;
+    radial-gradient(75rem 32rem at 50% -12rem, oklch(0.51 0.175 8 / 34%), transparent 70%),
+    linear-gradient(to right, oklch(0.955 0.028 103 / 3.5%) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.955 0.028 103 / 3.5%) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    56px 56px,
+    56px 56px;
+}
+
+@utility shadow-elegant {
+  box-shadow: var(--shadow-elegant);
+}
+
+@utility bg-gradient-primary {
+  background-image: var(--gradient-primary);
 }
