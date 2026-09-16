@@ -106,8 +106,8 @@ function Index() {
         <header className="border-b border-border/60">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <div className="flex items-center gap-3">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-primary/30 bg-primary/10">
-                <Bot className="size-5 text-primary" aria-hidden="true" />
+              <div className="bg-gradient-primary shadow-elegant flex size-10 shrink-0 items-center justify-center rounded-lg border border-primary/40">
+                <Bot className="size-5 text-primary-foreground" aria-hidden="true" />
               </div>
               <div>
                 <h1 className="text-lg font-semibold tracking-tight">SupportAI</h1>
@@ -138,7 +138,7 @@ function Index() {
             </section>
 
             <section aria-label="Latest analysis">
-              <Card className="border-border/70 bg-card/80 shadow-none backdrop-blur-sm">
+              <Card className="shadow-elegant border-border/70 bg-card/80 backdrop-blur-sm">
                 <CardHeader className="gap-1">
                   <CardTitle className="text-lg">Latest Analysis</CardTitle>
                   <CardDescription>
