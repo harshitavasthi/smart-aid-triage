@@ -152,51 +152,51 @@
 :root {
   --radius: 0.625rem;
 
-  --background: oklch(0.19 0.032 16);
-  --foreground: oklch(0.955 0.028 103);
+  --background: oklch(0.955 0.03 100);
+  --foreground: oklch(0.3 0.055 12);
 
-  --card: oklch(0.245 0.042 15);
-  --card-foreground: oklch(0.955 0.028 103);
-  --popover: oklch(0.245 0.042 15);
-  --popover-foreground: oklch(0.955 0.028 103);
+  --card: oklch(0.985 0.018 100);
+  --card-foreground: oklch(0.3 0.055 12);
+  --popover: oklch(0.985 0.018 100);
+  --popover-foreground: oklch(0.3 0.055 12);
 
-  --primary: oklch(0.51 0.175 8);
+  --primary: oklch(0.48 0.16 8);
   --primary-foreground: oklch(0.965 0.026 103);
 
-  --secondary: oklch(0.3 0.048 15);
-  --secondary-foreground: oklch(0.94 0.026 103);
+  --secondary: oklch(0.92 0.028 95);
+  --secondary-foreground: oklch(0.38 0.07 10);
 
-  --muted: oklch(0.285 0.04 15);
-  --muted-foreground: oklch(0.755 0.035 60);
+  --muted: oklch(0.92 0.028 95);
+  --muted-foreground: oklch(0.5 0.04 30);
 
-  --accent: oklch(0.58 0.132 47);
+  --accent: oklch(0.56 0.13 47);
   --accent-foreground: oklch(0.965 0.026 103);
 
-  --destructive: oklch(0.55 0.19 22);
+  --destructive: oklch(0.52 0.19 22);
   --destructive-foreground: oklch(0.965 0.026 103);
 
-  --border: oklch(0.345 0.05 15);
-  --input: oklch(0.345 0.05 15);
-  --ring: oklch(0.58 0.16 10);
+  --border: oklch(0.88 0.03 90);
+  --input: oklch(0.88 0.03 90);
+  --ring: oklch(0.48 0.16 8);
 
-  --surface: oklch(0.22 0.036 16);
+  --surface: oklch(0.93 0.03 98);
 
-  --success: oklch(0.68 0.11 150);
-  --warning: oklch(0.78 0.13 78);
-  --info: oklch(0.68 0.1 250);
+  --success: oklch(0.55 0.12 150);
+  --warning: oklch(0.6 0.13 75);
+  --info: oklch(0.5 0.1 250);
 
-  --priority-low: oklch(0.72 0.055 100);
-  --priority-medium: oklch(0.78 0.13 78);
-  --priority-high: oklch(0.66 0.14 45);
-  --priority-critical: oklch(0.6 0.19 12);
+  --priority-low: oklch(0.55 0.06 100);
+  --priority-medium: oklch(0.6 0.13 75);
+  --priority-high: oklch(0.55 0.14 45);
+  --priority-critical: oklch(0.48 0.17 12);
 
-  --sentiment-positive: oklch(0.68 0.11 150);
-  --sentiment-neutral: oklch(0.74 0.028 70);
-  --sentiment-negative: oklch(0.66 0.15 30);
-  --sentiment-urgent: oklch(0.58 0.2 10);
+  --sentiment-positive: oklch(0.55 0.12 150);
+  --sentiment-neutral: oklch(0.52 0.03 70);
+  --sentiment-negative: oklch(0.53 0.15 30);
+  --sentiment-urgent: oklch(0.47 0.18 10);
 
-  --gradient-primary: linear-gradient(135deg, oklch(0.51 0.175 8), oklch(0.58 0.132 47));
-  --shadow-elegant: 0 18px 45px -20px oklch(0.19 0.032 16 / 85%);
+  --gradient-primary: linear-gradient(135deg, oklch(0.48 0.16 8), oklch(0.56 0.13 47));
+  --shadow-elegant: 0 18px 45px -22px oklch(0.3 0.06 12 / 35%);
 }
 
 @theme inline {
@@ -234,9 +234,9 @@
 
 @utility grid-backdrop {
   background-image:
-    radial-gradient(75rem 32rem at 50% -12rem, oklch(0.51 0.175 8 / 34%), transparent 70%),
-    linear-gradient(to right, oklch(0.955 0.028 103 / 3.5%) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(0.955 0.028 103 / 3.5%) 1px, transparent 1px);
+    radial-gradient(75rem 32rem at 50% -12rem, oklch(0.48 0.16 8 / 12%), transparent 70%),
+    linear-gradient(to right, oklch(0.3 0.055 12 / 4%) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.3 0.055 12 / 4%) 1px, transparent 1px);
   background-size:
     100% 100%,
     56px 56px,
