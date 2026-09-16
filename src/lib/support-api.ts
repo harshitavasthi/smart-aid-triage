@@ -118,12 +118,27 @@ function fallbackTicketId(): string {
 }
 
 export function normalizeAnalysis(raw: unknown, ticket: TicketPayload): TicketAnalysis {
-  const data = unwrap(raw);
+  const top = unwrap(raw);
+
+  /** Workflows often nest the analysis under `ticket` / `analysis` / `triage`. Flatten it. */
+  const nested: Json = {};
+  for (const key of ["ticket", "analysis", "triage", "result", "payload"]) {
+    const value = top[key];
+    if (isRecord(value)) Object.assign(nested, value);
+  }
+  const data: Json = { ...nested, ...top };
 
   const status = asString(pick(data, ["status", "workflowStatus", "state"])) || null;
   const humanReviewRequired =
-    asBool(pick(data, ["human_review_required", "humanReview", "requiresHumanReview", "needsReview"])) ||
-    status === "human_review_required";
+    asBool(
+      pick(data, [
+        "human_review_required",
+        "needs_human_review",
+        "humanReview",
+        "requiresHumanReview",
+        "needsReview",
+      ]),
+    ) || status === "human_review_required";
 
   const emailSent = asBool(pick(data, ["email_sent", "emailSent", "email_status", "mailSent"]));
 
