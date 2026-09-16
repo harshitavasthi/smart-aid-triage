@@ -106,7 +106,7 @@ function Index() {
         <header className="border-b border-border/60">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <div className="flex items-center gap-3">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-primary/30 bg-primary/10">
+              <div className="bg-gradient-primary shadow-elegant flex size-10 shrink-0 items-center justify-center rounded-lg border border-primary/40">
                 <Bot className="size-5 text-primary" aria-hidden="true" />
               </div>
               <div>
