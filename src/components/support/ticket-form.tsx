@@ -58,7 +58,7 @@ export function TicketForm({
   const messageLength = form.watch("message").length;
 
   return (
-    <Card className="border-border/70 bg-card/80 shadow-none backdrop-blur-sm">
+    <Card className="shadow-elegant border-border/70 bg-card/80 backdrop-blur-sm">
       <CardHeader className="gap-1">
         <CardTitle className="text-lg">New Ticket</CardTitle>
         <CardDescription>
