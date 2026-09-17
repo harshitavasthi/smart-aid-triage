@@ -6,7 +6,7 @@
  */
 export const N8N_CHAT_WEBHOOK_URL =
   (import.meta.env["VITE_N8N_CHAT_WEBHOOK_URL"] as string | undefined) ??
-  "https://harshitavasthi.app.n8n.cloud/webhook/smart-aid-chat";
+  "https://harshitavasthi.app.n8n.cloud/webhook/smart-aid-assistant";
 
 export const CHAT_TIMEOUT_MS = 60_000;
 
