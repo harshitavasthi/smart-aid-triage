@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AnalysisPanel } from "@/components/support/analysis-panel";
+import { ChatWidget } from "@/components/support/chat-widget";
 import {
   AnalysisEmptyState,
   AnalysisErrorState,
@@ -167,6 +168,7 @@ function Index() {
           </div>
         </main>
       </div>
+      <ChatWidget />
     </div>
   );
 }
