@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Check, CreditCard, LockKeyhole, ShieldCheck } from "lucide-react";
 
-import { ChatWidget } from "@/components/support/chat-widget";
+import { SupportCenter } from "@/components/support/support-center";
 import { Button } from "@/components/ui/button";
 
 const title = "Payflow — Demo Payment Experience";
@@ -87,7 +87,7 @@ function Index() {
           </div>
         </section>
       </main>
-      <ChatWidget />
+      <SupportCenter />
     </div>
   );
 }

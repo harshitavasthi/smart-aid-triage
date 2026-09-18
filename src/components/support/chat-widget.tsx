@@ -1,4 +1,4 @@
-import { AlertTriangle, Loader2, MessageCircle, RotateCcw, Send, Stethoscope, X } from "lucide-react";
+import { AlertTriangle, Loader2, RotateCcw, Send, Stethoscope } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,6 @@ function greetingMessage(): ChatMessage {
 }
 
 export function ChatWidget() {
-  const [open, setOpen] = useState(false);
   const [sessionId, setSessionId] = useState(() => newSessionId());
   const [messages, setMessages] = useState<ChatMessage[]>(() => [greetingMessage()]);
   const [input, setInput] = useState("");
@@ -56,8 +55,8 @@ export function ChatWidget() {
   }, [messages, isSending]);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
-  }, [open, isSending]);
+    inputRef.current?.focus();
+  }, [isSending]);
 
   const reset = () => {
     setSessionId(newSessionId());
@@ -117,24 +116,7 @@ export function ChatWidget() {
   };
 
   return (
-    <>
-      {!open && (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label={`Open ${ASSISTANT_NAME}`}
-          className="bg-gradient-primary shadow-elegant fixed bottom-5 right-5 z-50 inline-flex size-14 items-center justify-center rounded-full border border-primary/40 text-primary-foreground transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          <MessageCircle className="size-6" aria-hidden="true" />
-        </button>
-      )}
-
-      {open && (
-        <div
-          role="dialog"
-          aria-label={ASSISTANT_NAME}
-          className="shadow-elegant fixed inset-x-3 bottom-3 top-3 z-50 flex flex-col overflow-hidden rounded-xl border border-border/70 bg-card sm:inset-auto sm:bottom-5 sm:right-5 sm:top-auto sm:h-[min(34rem,calc(100vh-3rem))] sm:w-[24rem]"
-        >
+    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-card">
           <header className="flex items-center gap-3 border-b border-border/60 px-4 py-3">
             <div className="bg-gradient-primary flex size-9 shrink-0 items-center justify-center rounded-lg border border-primary/40">
               <Stethoscope className="size-4 text-primary-foreground" aria-hidden="true" />
@@ -151,15 +133,6 @@ export function ChatWidget() {
               className="size-8"
             >
               <RotateCcw className="size-4" aria-hidden="true" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setOpen(false)}
-              aria-label="Close chat"
-              className="size-8"
-            >
-              <X className="size-4" aria-hidden="true" />
             </Button>
           </header>
 
@@ -256,8 +229,6 @@ export function ChatWidget() {
               )}
             </Button>
           </form>
-        </div>
-      )}
-    </>
+    </div>
   );
 }
