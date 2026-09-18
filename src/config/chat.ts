@@ -11,6 +11,6 @@ export const N8N_CHAT_WEBHOOK_URL =
 export const CHAT_TIMEOUT_MS = 60_000;
 
 export const OUT_OF_SCOPE_REPLY =
-  "I'm here to help with Smart Aid Triage and health-related triage questions. I can't help with unrelated topics.";
+  "I'm a payment-related assistant. I can't help with unrelated topics.";
 
 export const ASSISTANT_NAME = "Smart Aid Assistant";
