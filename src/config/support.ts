@@ -5,10 +5,11 @@
  * It only POSTs the ticket to this n8n webhook, which orchestrates everything
  * server-side and returns the analysis.
  *
- * Change this single constant to point at a different n8n workflow.
+ * Override the endpoint with VITE_N8N_SUPPORT_WEBHOOK_URL.
  */
 export const N8N_WEBHOOK_URL =
-  "https://harshitavasthi.app.n8n.cloud/webhook-test/support-ticket";
+  (import.meta.env["VITE_N8N_SUPPORT_WEBHOOK_URL"] as string | undefined) ??
+  "https://harshitavasthi.app.n8n.cloud/webhook/support-ticket";
 
 /** Abort the webhook request after this many milliseconds. */
 export const WEBHOOK_TIMEOUT_MS = 60_000;

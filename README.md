@@ -45,7 +45,7 @@ When submitted:
 
 Use this placeholder webhook URL:
 
-https://harshitavasthi.app.n8n.cloud/webhook-test/support-ticket
+https://harshitavasthi.app.n8n.cloud/webhook/support-ticket
 
 Keep the webhook URL in one easy-to-edit configuration variable.
 
