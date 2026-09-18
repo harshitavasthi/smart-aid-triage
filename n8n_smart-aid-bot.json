@@ -1,0 +1,227 @@
+{
+  "name": "Smart Aid Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "smart-aid-assistant",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "9f43ab08-190b-4b81-b562-c3b514f41680",
+      "name": "Chat Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        96
+      ],
+      "webhookId": "a72e9871-7a6b-4d5a-aa69-d1093130567b"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get incoming data from the webhook\nconst input = $json.body ?? $json;\n\n// Extract the user's message\nconst message = String(input.message ?? '').trim();\n\n// Extract the conversation/session ID\nconst sessionId = String(input.sessionId ?? '').trim();\n\n// Payment support chatbot instructions\nconst systemPrompt = [\n  'You are the Smart Aid Payment Support Assistant.',\n  '',\n  'You ONLY help with Smart Aid payment, billing, transaction, refund, and payment-support questions.',\n  '',\n  'You can help with:',\n  '- Duplicate charges',\n  '- Being charged twice',\n  '- Failed or declined payments',\n  '- Pending payments',\n  '- Money deducted but payment failed',\n  '- Missing refunds',\n  '- Refund questions',\n  '- Incorrect charges',\n  '- Payment status',\n  '- Payment-related support',\n  '',\n  'You are NOT a general-purpose assistant.',\n  '',\n  'You MUST NOT answer questions about:',\n  '- Health or medical issues',\n  '- Sports',\n  '- Politics',\n  '- Movies',\n  '- Celebrities',\n  '- Entertainment',\n  '- Jokes',\n  '- Creative writing',\n  '- Travel',\n  '- Shopping unrelated to Smart Aid payments',\n  '- Coding unrelated to Smart Aid payments',\n  '- General knowledge',\n  '- News',\n  '- Any other unrelated topic',\n  '',\n  'If the user asks about health or a medical issue, respond with:',\n  '\"I can help with Smart Aid payment, billing, transaction, and refund-related questions. I can’t help with health or medical questions.\"',\n  '',\n  'If the user asks about another unrelated topic, respond with:',\n  '\"I can help with Smart Aid payment, billing, transaction, and refund-related questions. I can’t help with unrelated topics.\"',\n  '',\n  'For payment-related questions, answer only the question asked.',\n  'Keep responses concise and relevant.',\n  'Do not invent transaction information.',\n  'Do not claim that a payment or refund was completed unless the available data confirms it.',\n  'Never ask for passwords, PINs, CVV numbers, full card numbers, or other sensitive payment credentials.',\n  '',\n  'Return ONLY valid JSON.',\n  'The JSON must have this structure:',\n  '{\"message\":\"response\",\"inScope\":true,\"severity\":\"low\",\"category\":\"payment\"}',\n  '',\n  'For an out-of-scope question, use:',\n  '{\"message\":\"appropriate scope response\",\"inScope\":false,\"severity\":\"low\",\"category\":\"out_of_scope\"}'\n].join('\\n');\n\n// Return the data to the next node\nreturn [\n  {\n    json: {\n      message: message,\n      sessionId: sessionId,\n      isEmpty: message.length === 0,\n      systemPrompt: systemPrompt\n    }\n  }\n];\n"
+      },
+      "id": "26c54666-61a3-4b5d-8fb2-ea02607b52dc",
+      "name": "Validate Chat Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "empty-check",
+              "leftValue": "={{ $json.isEmpty }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c7edf238-a16f-42a5-988b-d97aaf2d7e40",
+      "name": "Message Empty?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      message: 'Please enter a message.',\n      inScope: false,\n    },\n  },\n];"
+      },
+      "id": "65b63fe8-9f0e-47c0-bf66-c32ac95d7a0d",
+      "name": "Empty Message Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "a56fc157-9ebf-4b5f-8e42-d4f2a51013f9",
+      "name": "Respond to Lovable",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1120,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "groqApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: \"openai/gpt-oss-20b\", temperature: 0.2, response_format: { type: \"json_object\" }, messages: [ { role: \"system\", content: $json.systemPrompt }, { role: \"user\", content: $json.message } ] }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "9ac4bd00-f2a4-4227-8aab-a497c6dec681",
+      "name": "Groq AI - Scope Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        672,
+        192
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "6kDMrZK5GafuQoJX",
+          "name": "Groq account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const sessionId = $('Validate Chat Input').first().json.sessionId;\n\nconst severities = ['low', 'medium', 'high', 'emergency'];\nconst raw = $json.choices?.[0]?.message?.content;\n\nlet out;\n\ntry {\n  if (!raw) {\n    throw new Error('No AI content');\n  }\n\n  const ai = JSON.parse(raw);\n\n  const message = String(ai.message ?? '').trim();\n  if (!message) {\n    throw new Error('Empty AI message');\n  }\n\n  const inScope = Boolean(ai.inScope);\n\n  let severity = String(ai.severity ?? 'low').toLowerCase();\n  if (!severities.includes(severity)) {\n    severity = 'low';\n  }\n\n  let category = String(ai.category ?? (inScope ? 'triage' : 'out_of_scope')).trim();\n  if (!category) {\n    category = inScope ? 'triage' : 'out_of_scope';\n  }\n\n  out = {\n    message,\n    inScope,\n    severity,\n    category,\n    sessionId,\n  };\n} catch (error) {\n  // Never expose API keys, credentials, internal errors, prompts or n8n details\n  out = {\n    message: \"I'm having trouble processing your request right now. Please try again.\",\n    inScope: false,\n    category: 'error',\n    sessionId,\n  };\n}\n\nreturn [{ json: out }];"
+      },
+      "id": "8b779a3e-5002-49f1-aaa9-adcac9225ad4",
+      "name": "Validate AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        192
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Chat Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate Chat Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Chat Input": {
+      "main": [
+        [
+          {
+            "node": "Message Empty?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message Empty?": {
+      "main": [
+        [
+          {
+            "node": "Empty Message Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Groq AI - Scope Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Empty Message Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Lovable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq AI - Scope Check": {
+      "main": [
+        [
+          {
+            "node": "Validate AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate AI Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Lovable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "97b8cf1d-53b7-482e-ae30-7365a14fbaea",
+  "meta": {
+    "instanceId": "2ea434ef4b5492546a2424eb635000230b1104a509ac82e3a32d8be55fb7b13c"
+  },
+  "nodeGroups": [],
+  "id": "4FYf55zoOFmyEroI",
+  "tags": []
+}
